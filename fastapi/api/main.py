@@ -1,63 +1,14 @@
-from typing import List
-import pandas as pd
-import asyncio
-from fastapi.middleware.cors import CORSMiddleware
-from fastapi import FastAPI, HTTPException, WebSocket
 from ib_insync import *
-import uvicorn
-
-app = FastAPI()
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=['https://localhost:3000','https://127.0.0.1:58540','http://localhost:3000','http://80.137.37.62','https:80.137.37.62','http://80.137.37.62:59402','https:80.137.37.62:59402','https://aragon-trade.com'],
-    allow_credentials=True,
-    allow_methods=['*'],
-    allow_headers=['*'],
-)
-ib = IB()
-# Initialize Interactive Brokers connection
 
 
-# Historical Candlestick Data Endpoint
+
+
 @app.get("/api/stocks/{symbol}/candlesticks")
-async def get_historical_candlesticks(symbol: str, timeframe: str = "1 min", duration: str = "1 D"):
-    """
-    Fetch historical candlestick data for a given symbol and timeframe.
-    """
-    
-    await ib.connectAsync('127.0.0.1', 7497, clientId=3)
-    
-    try:
-        contract = Stock(symbol, 'SMART', 'USD')
-        bars = ib.reqHistoricalData(
-            contract,
-            endDateTime='',
-            durationStr=duration,
-            barSizeSetting=timeframe,
-            whatToShow='TRADES',
-            useRTH=True
-        )
-
-        if not bars:
-            raise HTTPException(status_code=404, detail="No historical data found for the given symbol.")
-
-        # Convert data to JSON format for frontend
-        data = [
-            {
-                "time": bar.date.isoformat(),
-                "open": bar.open,
-                "high": bar.high,
-                "low": bar.low,
-                "close": bar.close,
-                "volume": bar.volume
-            }
-            for bar in bars
-        ]
-        ib.disconnect()
-        return data
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error fetching historical data: {str(e)}")
+def get_historical_candlesticks(symbol: str, timeframe: str = "1 min", duration: str = "1 D"):
+ib = IB()
+ib.connect('127.0.0.1', 7497, clientId=1)
+print("Connected:", ib.isConnected())
+ib.disconnect()
     
 
 # # Real-Time Candle Updates Endpoint
@@ -93,10 +44,4 @@ async def get_historical_candlesticks(symbol: str, timeframe: str = "1 min", dur
 
 #         return real_time_data
 #     except Exception as e:
-#         raise HTTPException(status_code=500, detail=f"Error fetching real-time data: {str(e)}")
-    
-    
-
-# Run FastAPI app
-if __name__ == "__main__":
-    uvicorn.run(app, host="195.200.15.182", port=8000)
+#         raise HTTPException(status_code=500, detail=f"Error fetching real-time data: {str(e)}"
