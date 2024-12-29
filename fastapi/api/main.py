@@ -4,8 +4,6 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI, HTTPException, WebSocket
 from ib_insync import *
 import uvicorn
-import nest_asyncio
-nest_asyncio.apply()
 
 app = FastAPI()
 
