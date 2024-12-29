@@ -1,5 +1,6 @@
 from typing import List
 import pandas as pd
+import asyncio
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI, HTTPException, WebSocket
 from ib_insync import *
@@ -14,19 +15,18 @@ app.add_middleware(
     allow_methods=['*'],
     allow_headers=['*'],
 )
-
+ib = IB()
 # Initialize Interactive Brokers connection
 
 
 # Historical Candlestick Data Endpoint
 @app.get("/api/stocks/{symbol}/candlesticks")
-def get_historical_candlesticks(symbol: str, timeframe: str = "1 min", duration: str = "1 D"):
+await def get_historical_candlesticks(symbol: str, timeframe: str = "1 min", duration: str = "1 D"):
     """
     Fetch historical candlestick data for a given symbol and timeframe.
     """
-    ib = IB()
     
-    ib.connect('127.0.0.1', 7497, clientId=1)
+    await ib.connectAsync('127.0.0.1', 7497, clientId=3)
     
     try:
         contract = Stock(symbol, 'SMART', 'USD')
@@ -54,11 +54,10 @@ def get_historical_candlesticks(symbol: str, timeframe: str = "1 min", duration:
             }
             for bar in bars
         ]
-        return data
         ib.disconnect()
+        return data
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error fetching historical data: {str(e)}")
-        ib.disconnect()
     
 
 # # Real-Time Candle Updates Endpoint
