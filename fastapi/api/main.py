@@ -9,7 +9,7 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=['https://localhost:3000','https://127.0.0.1:58540','http://localhost:3000','http://80.137.37.62','https:80.137.37.62','http://80.137.37.62:59402','https:80.137.37.62:59402','https://aragon-trade.com'],
+    allow_origins=['https://localhost:3000','https://127.0.0.1:58540','http://localhost:3000','http://80.137.37.62','https:80.137.37.62','http://80.137.37.62:59402','https:80.137.37.62:59402','https://aragon-trade.com','https://www.aragon-trade.com/'],
     allow_credentials=True,
     allow_methods=['*'],
     allow_headers=['*'],
