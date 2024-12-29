@@ -14,7 +14,7 @@ app.add_middleware(
     allow_headers=['*'],
 )
 
-@app.get("/api/stocks/{symbol}/candlesticks/{")
+@app.get("/api/stocks/{symbol}/candlesticks/")
 def get_historical_candlesticks(symbol: str, timeframe: str = "1 min", duration: str = "1 D"):
     # Create a new event loop for the thread
     loop = asyncio.new_event_loop()
