@@ -109,4 +109,4 @@ async def get_historical_candlesticks(symbol: str, timeframe: str = "1 min", dur
 
 # Run FastAPI app
 if __name__ == "__main__":
-    uvicorn.run(app, host="195.200.15.182", port=8000,debug=True)
+    uvicorn.run(app, host="195.200.15.182", port=8000)
