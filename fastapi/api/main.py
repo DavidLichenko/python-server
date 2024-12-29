@@ -109,4 +109,4 @@ async def get_real_time_candle(symbol: str):
 
 # Run FastAPI app
 if __name__ == "__main__":
-    uvicorn.run(app, host="https://aragon-trade.com/", port=8000)
+    uvicorn.run(app, host="127.0.0.1", port=8000)
