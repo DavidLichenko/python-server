@@ -1,7 +1,4 @@
-from ib_insync import *
-
-
-
+from ib_insync import IB
 
 @app.get("/api/stocks/{symbol}/candlesticks")
 def get_historical_candlesticks(symbol: str, timeframe: str = "1 min", duration: str = "1 D"):
