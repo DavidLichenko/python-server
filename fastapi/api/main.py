@@ -5,10 +5,10 @@ app = FastAPI()
 
 @app.get("/api/stocks/{symbol}/candlesticks")
 def get_historical_candlesticks(symbol: str, timeframe: str = "1 min", duration: str = "1 D"):
-ib = IB()
-ib.connect('127.0.0.1', 7497, clientId=1)
-print("Connected:", ib.isConnected())
-ib.disconnect()
+    ib = IB()
+    ib.connect('127.0.0.1', 7497, clientId=1)
+    print("Connected:", ib.isConnected())
+    ib.disconnect()
     
 
 # # Real-Time Candle Updates Endpoint
