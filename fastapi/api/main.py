@@ -1,4 +1,3 @@
-import asyncio
 from typing import List
 import pandas as pd
 from fastapi.middleware.cors import CORSMiddleware
@@ -6,8 +5,7 @@ from fastapi import FastAPI, HTTPException, WebSocket
 from ib_insync import *
 import uvicorn
 import nest_asyncio
-
-asyncio.set_event_loop_policy(asyncio.DefaultEventLoopPolicy())
+import threading
 nest_asyncio.apply()
 
 app = FastAPI()
@@ -111,4 +109,7 @@ async def get_historical_candlesticks(symbol: str, timeframe: str = "1 min", dur
 
 # Run FastAPI app
 if __name__ == "__main__":
-    uvicorn.run(app, host="195.200.15.182", port=8000)
+    thread = threading.Thread(target=fetch_data_in_thread)
+    thread.start()
+    thread.join()
+    uvicorn.run(app, host="195.200.15.182", port=8000,debug=True)
