@@ -5,7 +5,7 @@ from fastapi import FastAPI, HTTPException, WebSocket
 from ib_insync import *
 import uvicorn
 import nest_asyncio
-import threading
+
 nest_asyncio.apply()
 
 app = FastAPI()
@@ -109,7 +109,4 @@ async def get_historical_candlesticks(symbol: str, timeframe: str = "1 min", dur
 
 # Run FastAPI app
 if __name__ == "__main__":
-    thread = threading.Thread(target=fetch_data_in_thread)
-    thread.start()
-    thread.join()
     uvicorn.run(app, host="195.200.15.182", port=8000,debug=True)
