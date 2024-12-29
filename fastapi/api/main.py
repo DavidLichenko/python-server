@@ -5,7 +5,6 @@ from fastapi import FastAPI, HTTPException, WebSocket
 from ib_insync import *
 import uvicorn
 import nest_asyncio
-import threading
 nest_asyncio.apply()
 
 app = FastAPI()
@@ -23,7 +22,7 @@ app.add_middleware(
 
 # Historical Candlestick Data Endpoint
 @app.get("/api/stocks/{symbol}/candlesticks")
-async def get_historical_candlesticks(symbol: str, timeframe: str = "1 min", duration: str = "1 D"):
+def get_historical_candlesticks(symbol: str, timeframe: str = "1 min", duration: str = "1 D"):
     """
     Fetch historical candlestick data for a given symbol and timeframe.
     """
@@ -58,9 +57,11 @@ async def get_historical_candlesticks(symbol: str, timeframe: str = "1 min", dur
             for bar in bars
         ]
         return data
+        ib.disconnect()
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error fetching historical data: {str(e)}")
-    ib.disconnect()
+        ib.disconnect()
+    
 
 # # Real-Time Candle Updates Endpoint
 # @app.get("/api/stocks/{symbol}/latest-candle")
