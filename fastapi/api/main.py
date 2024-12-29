@@ -22,7 +22,7 @@ def get_historical_candlesticks(symbol: str, timeframe: str = "1 min", duration:
     asyncio.set_event_loop(loop)  # Set the new event loop as the current loop
 
     ib = IB()
-    loop.run_until_complete(ib.connectAsync('127.0.0.1', 7497, clientId=random.randint(1-1000)))
+    loop.run_until_complete(ib.connectAsync('127.0.0.1', 7497, clientId=random.randint(1, 1000)))
     contract = Stock(symbol, 'SMART', 'USD')
     bars = ib.reqHistoricalData(
         contract,
