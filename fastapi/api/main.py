@@ -1,15 +1,22 @@
-from ib_insync import IB
+from ib_insync import *
 from fastapi import FastAPI, HTTPException, WebSocket
+import asyncio
+from concurrent.futures import ThreadPoolExecutor
 
 app = FastAPI()
 
 @app.get("/api/stocks/{symbol}/candlesticks")
-def get_historical_candlesticks(symbol: str, timeframe: str = "1 min", duration: str = "1 D"):
+def get_historical_candlesticks():
+    # Create a new event loop for the thread
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)  # Set the new event loop as the current loop
+
     ib = IB()
-    ib.connect('127.0.0.1', 7497, clientId=1)
-    print("Connected:", ib.isConnected())
-    ib.disconnect()
+    loop.run_until_complete(ib.connectAsync('127.0.0.1', 7497, clientId=1))
     
+    # Perform your tasks (e.g., requesting historical data)
+    ib.disconnect()
+
 
 # # Real-Time Candle Updates Endpoint
 # @app.get("/api/stocks/{symbol}/latest-candle")
