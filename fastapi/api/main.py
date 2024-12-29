@@ -25,7 +25,7 @@ ib = IB()
 async def startup_event():
     # Establish connection to IB at startup
     try:
-        ib.connect('127.0.0.1', 7497, clientId=1)
+        ib.connect('127.0.0.1', 7497, clientId=12)
     except Exception as e:
         print(f"Error connecting to Interactive Brokers: {e}")
 
