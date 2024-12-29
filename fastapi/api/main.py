@@ -21,7 +21,7 @@ ib = IB()
 
 # Historical Candlestick Data Endpoint
 @app.get("/api/stocks/{symbol}/candlesticks")
-await def get_historical_candlesticks(symbol: str, timeframe: str = "1 min", duration: str = "1 D"):
+async def get_historical_candlesticks(symbol: str, timeframe: str = "1 min", duration: str = "1 D"):
     """
     Fetch historical candlestick data for a given symbol and timeframe.
     """
