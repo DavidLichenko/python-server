@@ -1,9 +1,7 @@
 from ib_insync import IB
 from fastapi import FastAPI, HTTPException, WebSocket
 
-
 app = FastAPI()
-
 
 @app.get("/api/stocks/{symbol}/candlesticks")
 def get_historical_candlesticks(symbol: str, timeframe: str = "1 min", duration: str = "1 D"):
