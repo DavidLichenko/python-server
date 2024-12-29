@@ -6,6 +6,8 @@ from fastapi import FastAPI, HTTPException, WebSocket
 from ib_insync import *
 import uvicorn
 import nest_asyncio
+
+asyncio.set_event_loop_policy(asyncio.DefaultEventLoopPolicy())
 nest_asyncio.apply()
 
 app = FastAPI()
